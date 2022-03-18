@@ -1,4 +1,4 @@
-export enum Books{
+export  enum Books{
     Genesis='01O',
     Exodus='02O',
     Leviticus='03O',
