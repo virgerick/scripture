@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { BookType } from "../enums/BookType";
+import { Books } from "../enums/Books";
 import { IBible } from "../interfaces/IBible";
 import { IBook } from "../interfaces/IBook";
 import { IChapter } from "../interfaces/IChapter";
@@ -38,7 +38,7 @@ export const loadVerses = async (
         verses.push(verse);
       });
 
-      for (const value in Object.values(BookType)) {
+      for (const value in Object.values(Books)) {
         const chapt = verses.filter((x) => x.chapter_nr === value);
         if (chapt.length > 0) {
           const Book: IBook = {
