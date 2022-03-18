@@ -1,14 +1,29 @@
 import { readFileSync } from "fs";
-import { Books } from "./Books";
 import { IBible } from "../interfaces/IBible";
 import { IBook } from "../interfaces/IBook";
 import { IChapter } from "../interfaces/IChapter";
 import { ITranslation } from "../interfaces/ITranslations";
 import { IVerse } from "../interfaces/IVerse";
+import { Books } from "./Books";
+const translations: Array<ITranslation> = require("../assets/translations.json");
 export const bibles: Array<IBible> = [];
+export const loadBible = () => {
+  try {
+    if (translations !== null) {
+      for (const key in translations) {
+        if (Object.prototype.hasOwnProperty.call(translations, key)) {
+          const element = translations[key];
+          loadVerses(element);
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const loadVerses = async (
   translation: ITranslation
-): Promise<Array<IVerse>> => {
+): Promise<Array<any>> => {
   // assets/resources/Spanish__Reina_Valera_(1909)__valera__LTR.txt
   // let result:string='';
 
@@ -24,7 +39,7 @@ export const loadVerses = async (
   try {
     const path: string = `./Assets/resources/${translation.filename}.txt`;
 
-    const file: string = await readFileSync(path, "utf8");
+    const file = await readFileSync(path, "utf8");
     if (file != null) {
       const lines = file.split("\n");
       lines.forEach((line) => {
@@ -65,11 +80,11 @@ export const loadVerses = async (
         }
       }
     }
-    if (!bibles.find((b) => b.id !== bible.id)) bibles.push(bible);
+
+    bibles.push(bible);
   } catch (error: any) {
-    throw new Error(error);
+    console.error(error);
   }
 
   return verses;
 };
-
