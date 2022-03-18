@@ -6,6 +6,7 @@ import { ITranslation } from "../interfaces/ITranslations";
 import { IVerse } from "../interfaces/IVerse";
 import { Books } from "./Books";
 const translations: Array<ITranslation> = require("../Assets/translations.json");
+
 export const bibles: Array<IBible> = [];
 export const loadBible = () => {
   try {
@@ -42,7 +43,9 @@ export const loadVerses = async (
     const result = await fetch(
       `https://raw.githubusercontent.com/virgerick/scripture/main/Assets/resources/${translation.filename}.txt`
     );
+
     const file = await result.text();
+
     if (file != null) {
       const lines = file.split("\n");
       lines.forEach((line) => {
@@ -83,7 +86,6 @@ export const loadVerses = async (
         }
       }
     }
-
     bibles.push(bible);
   } catch (error: any) {
     console.error(error);
