@@ -7,8 +7,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Array<IBible> | undefined>
 ) {
+console.log(bibles);
 
     if(bibles.length==0){
+      console.log(
          await loadVerses({
             language: "Spanish",
             translation: "Reina Valera (1909)",
@@ -17,9 +19,9 @@ export default async function handler(
             filename: "Spanish__Reina_Valera_(1909)__valera__LTR",
             hash: "268a947e3796c99ce87ba1af722253d2c7b51739",
             id: "94"
-          });
+          }));
     }
 
 
-  res.status(200).json(bibles);``
+  res.status(200).json(bibles);
 }
