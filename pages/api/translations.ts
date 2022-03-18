@@ -6,5 +6,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Array<ITranslation> | any>
 ) {
-  res.status(200).json(translations);
+  const translation = require("../../Assets/translations.json");
+  res.status(200).json(Object.values(translations));
 }
