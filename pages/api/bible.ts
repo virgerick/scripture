@@ -5,9 +5,8 @@ import { loadVerses,bibles } from "../../utilities/LoadBlible";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Array<IBible> | undefined>
+  res: NextApiResponse<Array<IBible>>
 ) {
-console.log(bibles);
 
     if(bibles.length==0){
       console.log(

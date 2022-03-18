@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { Books } from "../enums/Books";
+import { Books } from "./Books";
 import { IBible } from "../interfaces/IBible";
 import { IBook } from "../interfaces/IBook";
 import { IChapter } from "../interfaces/IChapter";
