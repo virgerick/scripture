@@ -5,7 +5,7 @@ import { IChapter } from "../interfaces/IChapter";
 import { ITranslation } from "../interfaces/ITranslations";
 import { IVerse } from "../interfaces/IVerse";
 import { Books } from "./Books";
-const translations: Array<ITranslation> = require("../assets/translations.json");
+const translations: Array<ITranslation> = require("../Assets/translations.json");
 export const bibles: Array<IBible> = [];
 export const loadBible = () => {
   try {

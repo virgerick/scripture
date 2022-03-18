@@ -1,15 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IBible } from "../../interfaces/IBible";
-import { IVerse } from "../../interfaces/IVerse";
 import { loadBible, bibles } from "../../utilities/LoadBlible";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Array<IBible>>
+  res: NextApiResponse<Array<IBible> | any>
 ) {
-  if (bibles.length == 0) {
-    await loadBible();
-  }
+  try {
+    if (bibles.length == 0) {
+      await loadBible();
+    }
 
-  res.status(200).json(bibles);
+    res.status(200).json(bibles);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 }
