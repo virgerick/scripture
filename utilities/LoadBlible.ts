@@ -43,9 +43,7 @@ export const loadVerses = async (
     const result = await fetch(
       `https://raw.githubusercontent.com/virgerick/scripture/main/Assets/resources/${translation.filename}.txt`
     );
-
     const file = await result.text();
-
     if (file != null) {
       const lines = file.split("\n");
       lines.forEach((line) => {

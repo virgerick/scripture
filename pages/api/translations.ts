@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ITranslation } from "../../interfaces/ITranslations";
+import { translationRepository } from "../../repositories/translationRepository";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Array<ITranslation> | any>
 ) {
-  const translations = require("../../Assets/translations.json");
-  res.status(200).json(Object.values(translations));
+  const translations = translationRepository.get();
+  res.status(200).json(translations);
 }
