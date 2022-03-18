@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Books } from "../../Enums/Books";
-import { IBible } from "../../interfaces/IBible";
-import { IBook } from "../../interfaces/IBook";
-import { IChapter } from "../../interfaces/IChapter";
-import { IVerse } from "../../interfaces/IVerse";
+import { Books } from "../../../Enums/Books";
+import { IBible } from "../../../interfaces/IBible";
+import { IBook } from "../../../interfaces/IBook";
+import { IChapter } from "../../../interfaces/IChapter";
+import { IVerse } from "../../../interfaces/IVerse";
 
 export default async function handler(
   req: NextApiRequest,

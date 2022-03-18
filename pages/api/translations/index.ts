@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { ITranslation } from "../../interfaces/ITranslations";
-import { translationRepository } from "../../repositories/translationRepository";
+import { ITranslation } from "../../../interfaces/ITranslations";
+import { translationRepository } from "../../../repositories/translationRepository";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Array<ITranslation> | any>
