@@ -5,7 +5,7 @@ export  class Verse {
   chapter_nr: string;
   verse_nr: string;
   verse: string;
-  constructor(tranlationId:number,translation:string,book: string, chapter: string, verseNumber: string, verse) {
+  constructor(tranlationId:number,translation:string,book: string, chapter: string, verseNumber: string, verse:string) {
     this.translationId=tranlationId;
     this.translation=  translation;
     this.book_nr = book;
