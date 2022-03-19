@@ -12,7 +12,11 @@ export default async function handler(
     const translation = translationRepository.get().find((x) => x.id == id);
     if (!translation) return res.status(400).json({ error: "bible not found" });
     const verses = await loadVerses(translation);
+    console.log(verses);
+
     const bible = loadBible(translation, verses);
+    console.log(bible);
+
     res.status(200).json(bible);
   } catch (error: any) {
     res.status(400).json(error);
