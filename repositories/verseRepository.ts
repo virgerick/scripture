@@ -1,26 +1,23 @@
 import { ITranslation } from "../interfaces/ITranslations";
-import { IVerse } from "../interfaces/IVerses";
-import { Verse } from "../models/Verses";
+import { IVerse } from "../interfaces/IVerse";
+import { Verse } from "../models/verse";
 import { translationRepository } from "./translationRepository";
 
 export default class VerseRepository {
-  getAll(): Array<IVerse> {
-    const verses: Array<Verse>;
+  getAll(): Array<Verse> {
+    let verses: Array<Verse> =[];
     const translations = translationRepository.get();
     translations.forEach(async (element) => {
-      const versos = await LoadVerses(element);
+      const versos = await loadVerses(element);
       if (versos) {
-        verses.push(verses);
+        verses=[...verses,...versos];
       }
     });
     return verses;
   }
 }
-const LoadVerses = async (translation: ITranslation): Array<Verse> => {
+export const loadVerses = async (translation: ITranslation):Promise<Array<Verse>> => {
   const verses: Array<Verse> = [];
-  try {
-    //const path: string = `./Assets/resources/${translation.filename}.txt`;
-    //const file = await readFileSync(path, "utf8");
     const result = await fetch(
       `https://raw.githubusercontent.com/virgerick/scripture/main/Assets/resources/${translation.filename}.txt`
     );
@@ -37,11 +34,9 @@ const LoadVerses = async (translation: ITranslation): Array<Verse> => {
                                 array[3]);
         verses.push(verse);
       });
-      return verses;
+
     }
-  } catch (error: any) {
-    throw error;
-  }
+   return verses;
 };
 
 const verseRepository = new VerseRepository();
