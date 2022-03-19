@@ -15,7 +15,6 @@ export default async function handler(
   const lang = v || version || "valera";
   const libro = b ?? book;
   const capitulo = c ?? chapter;
-  console.log({ lang, libro, capitulo });
 
   const language = translationRepository
     .get()
@@ -24,18 +23,47 @@ export default async function handler(
   if (!language)
     return res.status(400).send({ error: "translation not found" });
   if (!libro && !capitulo && !verses) {
-    return res.send( await loadVerses(language));
+    return res.send(await loadVerses(language));
   }
 
-  if (libro&&!capitulo&&!verses) {
-   return res.send( await (await loadVerses(language)).filter(x=>x.book_nr==libro));
+  if (libro && !capitulo && !verses) {
+    return res.send(
+      await (await loadVerses(language)).filter((x) => x.book_nr == libro)
+    );
   }
 
-  if (libro&&capitulo&&!verses) {
-   return res.send( await (await loadVerses(language)).filter(x=>x.book_nr==libro&&x.chapter_nr==capitulo));
+  if (libro && capitulo && !verses) {
+    return res.send(
+      await (
+        await loadVerses(language)
+      ).filter((x) => x.book_nr == libro && x.chapter_nr == capitulo)
+    );
   }
-  if (libro&&capitulo&&verses) {
-   return res.send( await (await loadVerses(language)).filter(x=>x.book_nr==libro&&x.chapter_nr==capitulo&&x.verse_nr==verses));
+  if (libro && capitulo && verses) {
+    const array = verses.toString().split("-");
+    if (array.length ==1) {
+      return res.send(
+        await (
+          await loadVerses(language)
+        ).filter(
+          (x) =>
+            x.book_nr == libro &&
+            x.chapter_nr == capitulo &&
+            x.verse_nr == verses
+        )
+      );
+    }
+    return res.send(
+      await (
+        await loadVerses(language)
+      ).filter(
+        (x) =>
+          x.book_nr == libro &&
+          x.chapter_nr == capitulo &&
+          Number(x.verse_nr) >= Number(array[0]) &&
+          Number(x.verse_nr) <=Number( array[1])
+      )
+    );
   }
 
   try {
