@@ -19,11 +19,11 @@ export default class VerseRepository {
 }
 export const loadVerses = async (translation: ITranslation):Promise<Array<Verse>> => {
   const verses: Array<Verse> = [];
-   /* const result = await fetch(
+   const result = await fetch(
       `https://raw.githubusercontent.com/virgerick/scripture/main/Assets/resources/${translation.filename}.txt`
-    );*/
-    const result= await readFileSync(`./Assets/resources/${translation.filename}.txt`, "utf8");
-    const file =  result;
+    )
+   /*  const result= await readFileSync(`./Assets/resources/${translation.filename}.txt`, "utf8");;*/
+    const file = await result.text();
     if (file != null) {
       const lines = file.split("\n");
       lines.forEach((line) => {
