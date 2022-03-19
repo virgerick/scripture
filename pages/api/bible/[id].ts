@@ -17,7 +17,7 @@ export default async function handler(
     const bible = loadBible(translation, verses);
     console.log(bible);
 
-    res.status(200).json(bible);
+    res.status(200).send(bible);
   } catch (error: any) {
     res.status(400).json(error);
   }
