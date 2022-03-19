@@ -1,3 +1,4 @@
+import  {readFileSync}from 'fs'
 import { ITranslation } from "../interfaces/ITranslations";
 import { IVerse } from "../interfaces/IVerse";
 import { Verse } from "../models/verse";
@@ -18,16 +19,17 @@ export default class VerseRepository {
 }
 export const loadVerses = async (translation: ITranslation):Promise<Array<Verse>> => {
   const verses: Array<Verse> = [];
-    const result = await fetch(
+   /* const result = await fetch(
       `https://raw.githubusercontent.com/virgerick/scripture/main/Assets/resources/${translation.filename}.txt`
-    );
-    const file = await result.text();
+    );*/
+    const result= await readFileSync(`./Assets/resources/${translation.filename}.txt`, "utf8");
+    const file =  result;
     if (file != null) {
       const lines = file.split("\n");
       lines.forEach((line) => {
         const array = line.toString().split("||");
         const verse = new Verse(Number(translation.id),
-                                translation.language,
+                                translation.abbreviation,
                                 array[0],
                                 array[1],
                                 array[2],
