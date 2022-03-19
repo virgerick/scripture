@@ -18,7 +18,6 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-Some text.
         </p>
 
       </main>

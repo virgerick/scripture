@@ -1,6 +1,6 @@
 import { ITranslation } from "../interfaces/ITranslations";
 
-class BibleRepository {
+export default class BibleRepository {
   get() {}
   getById(id: string) {}
 }

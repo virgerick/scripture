@@ -1,6 +1,6 @@
 import { ITranslation } from "../interfaces/ITranslations";
 
-class TranslationRepository {
+export default class TranslationRepository {
   translations: Array<ITranslation> = [];
   constructor() {
     this.translations = Object.values(require("../Assets/translations.json"));
