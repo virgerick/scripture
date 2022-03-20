@@ -1,9 +1,19 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import { MouseEventHandler, useState } from "react";
+import { ITranslation } from "../interfaces/ITranslations";
+import styles from "../styles/Home.module.css";
+interface Prop {
+  translations: Array<ITranslation>;
+}
+const Home: NextPage<Prop> = (props: Prop) => {
+  const { translations } = props;
+  const [translation,setTranslation]=useState<string>("valera")
+  const handlerSearch=(e:MouseEventHandler<HTMLButtonElement>)=>{
+    console.log(translation);
 
-const Home: NextPage = () => {
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -16,11 +26,25 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="">Scripture</a>
         </h1>
+        <select value={translation} onChange={(e)=>{
+          console.log(e.target.value);
+          setTranslation(e.target.value);
+          }}>
+           {translations.map(x=>
+           <option value={x.abbreviation} key={x.hash}>{  x.abbreviation}-{x.language}</option>
 
-        <p className={styles.description}>
-        </p>
-
+            )}
+      </select>
+        <section className={styles.searchContainer}>
+          <input
+            type="text"
+            className={styles.inputSearch}
+            placeholder="Jhon 14:1-16"
+          />
+          <button className={styles.searchButton} onClick={handlerSearch}>Search</button>
+        </section>
       </main>
+
 
       <footer className={styles.footer}>
         <a
@@ -28,13 +52,20 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '} virgerick
+          Powered by virgerick
           {/* <Image src="/profile.jpg" alt="Vercel Logo" width={100} height={100} className="logo" /> */}
-
         </a>
       </footer>
     </div>
-  )
+  );
+};
+export default Home;
+export async function getServerSideProps(context: any) {
+  const result = await fetch(
+    "https://thescripture.vercel.app/api/translations"
+  );
+  let translations: Array<ITranslation> = await result.json();
+  return {
+    props: { translations }, // will be passed to the page component as props
+  };
 }
-
-export default Home
