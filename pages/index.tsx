@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { MouseEventHandler, useState } from "react";
+import {useState } from "react";
 import { ITranslation } from "../interfaces/ITranslations";
 import styles from "../styles/Home.module.css";
 interface Prop {
@@ -10,7 +10,7 @@ interface Prop {
 const Home: NextPage<Prop> = (props: Prop) => {
   const { translations } = props;
   const [translation,setTranslation]=useState<string>("valera")
-  const handlerSearch=(e:MouseEventHandler<HTMLButtonElement>)=>{
+  const handlerSearch=()=>{
     console.log(translation);
 
   }
