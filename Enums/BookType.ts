@@ -63,7 +63,7 @@ export  enum BookType{
     _1_John='62N',
     _2_John='63N',
     _3_John='64N',
-    _J_de='65N',
+    Jude='65N',
     Revelation='66N'
 }
 

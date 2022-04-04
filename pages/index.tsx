@@ -1,19 +1,63 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import {useState } from "react";
+import { useEffect, useState } from "react";
+import { Books } from "../Enums/Books";
+import { IBookType } from "../interfaces/IBookType";
 import { ITranslation } from "../interfaces/ITranslations";
+import { bookTypes } from "../models/BookTypes";
 import styles from "../styles/Home.module.css";
-interface Prop {
-  translations: Array<ITranslation>;
-}
-const Home: NextPage<Prop> = (props: Prop) => {
-  const { translations } = props;
-  const [translation,setTranslation]=useState<string>("valera")
-  const handlerSearch=()=>{
-    console.log(translation);
 
-  }
+const Home: NextPage = () => {
+  const [translations, setTranslations] = useState<Array<ITranslation>>([]);
+  const [translation, setTranslation] = useState<string>("valera");
+  const [book, setBook] = useState<string>("01O");
+  const [chapter, setChapter] = useState<number>();
+  const [chapters, setChapters] = useState<number[]>();
+  const [cita, setCita] = useState<string>();
+
+  const handlerSearch = async () => {
+    let libro: string = "";
+    let chapter: string = "";
+    let verses: string = "";
+    const split = cita?.split(" ");
+    if (split && split?.length > 1) {
+      libro = split[0];
+      var arr = split[1].split(":");
+      chapter = arr[0];
+      verses = arr[1];
+    }
+    console.log({ book, chapter, verses });
+    try {
+      const result = await fetch(`api/passage?v=${translation}&b=${book}`);
+      const data = await result.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    const getTranslations = async () => {
+      const result = await fetch("api/translations");
+
+      let translations: Array<ITranslation> = await result.json();
+      setTranslations(translations);
+    };
+    getTranslations();
+  }, []);
+  useEffect(() => {
+    const getChapters = async () => {
+      const num=bookTypes.find(x=>x.code==book)?.chapters??0
+      let arr:number[]=[]
+      for (let index = 1; index <= num; index++) {
+        arr.push(index)
+
+
+      }
+      setChapters(arr);
+    };
+    getChapters();
+  }, [book]);
   return (
     <div className={styles.container}>
       <Head>
@@ -26,25 +70,54 @@ const Home: NextPage<Prop> = (props: Prop) => {
         <h1 className={styles.title}>
           Welcome to <a href="">Scripture</a>
         </h1>
-        <select value={translation} onChange={(e)=>{
-          console.log(e.target.value);
-          setTranslation(e.target.value);
-          }}>
-           {translations.map(x=>
-           <option value={x.abbreviation} key={x.hash}>{  x.abbreviation}-{x.language}</option>
-
-            )}
-      </select>
+        <select
+          value={translation}
+          onChange={(e) => {
+            console.log(e.target.value);
+            setTranslation(e.target.value);
+          }}
+        >
+          {translations.map((x) => (
+            <option value={x.abbreviation} key={x.hash}>
+              {x.abbreviation}-{x.language}
+            </option>
+          ))}
+        </select>
+        <select
+          name=""
+          id=""
+          value={book}
+          onChange={(e) => setBook(e.target.value)}
+        >
+          {Object.entries(Books).map((x) => (
+            <option key={x[1]} value={x[1]}>
+              {x[0].replace("_", " ").replace("_", " ").replace("_", " ")}
+            </option>
+          ))}
+        </select>
+        <select
+          value={chapter}
+          onChange={(e) => setChapter(Number(e.target.value))}
+        >
+          {chapters?.map((x) => (
+            <option key={x} value={x}>
+              {x}
+            </option>
+          ))}
+        </select>
         <section className={styles.searchContainer}>
           <input
             type="text"
             className={styles.inputSearch}
             placeholder="Jhon 14:1-16"
+            value={cita}
+            onChange={(e) => setCita(e.target.value)}
           />
-          <button className={styles.searchButton} onClick={handlerSearch}>Search</button>
+          <button className={styles.searchButton} onClick={handlerSearch}>
+            Search
+          </button>
         </section>
       </main>
-
 
       <footer className={styles.footer}>
         <a
@@ -60,12 +133,3 @@ const Home: NextPage<Prop> = (props: Prop) => {
   );
 };
 export default Home;
-export async function getServerSideProps(context: any) {
-  const result = await fetch(
-    "https://thescripture.vercel.app/api/translations"
-  );
-  let translations: Array<ITranslation> = await result.json();
-  return {
-    props: { translations }, // will be passed to the page component as props
-  };
-}
