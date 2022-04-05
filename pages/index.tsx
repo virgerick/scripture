@@ -12,7 +12,7 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   const [translations, setTranslations] = useState<Array<ITranslation>>([]);
   const [translation, setTranslation] = useState<string>("valera");
-  const [book, setBook] = useState<string>("01O");
+  const [book, setBook] = useState<string>();
   const [chapter, setChapter] = useState<number>(0);
   const [chapters, setChapters] = useState<number[]>([]);
   const [verses, setVerses] = useState<Verse[]>([]);
@@ -46,8 +46,10 @@ const Home: NextPage = () => {
       setTranslations(translations);
     };
     getTranslations();
+    setBook("01O");
   }, []);
   useEffect(() => {
+    setChapter(0);
     const getChapters = async () => {
       const num = bookTypes.find((x) => x.code == book)?.chapters ?? 0;
       let arr: number[] = [];
@@ -59,6 +61,7 @@ const Home: NextPage = () => {
     getChapters();
   }, [book]);
   useEffect(() => {
+    setVerses([]);
     if (book && chapter && chapter > 0) {
       fetch(`/api/passage?v=${translation}&b=${book}&c=${chapter}`)
         .then(async (response) => {
@@ -118,7 +121,7 @@ const Home: NextPage = () => {
             Search
           </button>
         </section> */}
-        <section>
+        <section className={styles.chaptersContainer}>
           {chapters.map((x) => (
             <button
               onClick={(e) => setChapter(x)}
@@ -129,17 +132,23 @@ const Home: NextPage = () => {
             </button>
           ))}
         </section>
-        <section className={styles.versesContainer}>
-          {verses.length > 0 && (
-            <h2>{bookTypes.find((x) => x.code == verses[0].book_nr)?.name}-{verses[0].chapter_nr}</h2>
-          )}
-          <hr />
-          {verses.map((v) => (
-            <p key={v.verse_nr}>
-              <sup>{v.verse_nr}</sup> {v.verse}
+        {verses.length > 0 && (
+          <section className={styles.versesContainer}>
+            {verses.length > 0 && (
+              <h2 style={{ textAlign: "center" }}>
+                {bookTypes.find((x) => x.code == verses[0].book_nr)?.name}-
+                {verses[0].chapter_nr}
+              </h2>
+            )}
+            <p>
+              {verses.map((v) => (
+                <span key={v.verse_nr}>
+                  <sup>{v.verse_nr}</sup> {v.verse}
+                </span>
+              ))}
             </p>
-          ))}
-        </section>
+          </section>
+        )}
       </main>
 
       <footer className={styles.footer}>

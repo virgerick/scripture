@@ -16,7 +16,9 @@
   width: 90%;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 5px;
 }
 .inputSearch {
   border-style: solid;
@@ -47,13 +49,23 @@
   color: #0070f3;
   border: 1px solid #0070f3;
 }
+.chaptersContainer{
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2px;
+  max-width: 90%;
+  min-width: 300px;
+  width: 100%;
+  padding: 2rem;
+}
 .versesContainer{
   border: black 1px solid;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   text-align: justify;
-  margin: 2em;
   max-width: 90%;
   min-width: 300px;
   width: 100%;

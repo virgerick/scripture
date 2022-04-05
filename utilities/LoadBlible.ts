@@ -45,7 +45,7 @@ export const loadVerses = async (
     );
     const file = await result.text();
     if (file != null) {
-      const lines = file.split("\n");
+      const lines =decodeURIComponent(file).split("\n");
       lines.forEach((line) => {
         const array = line.toString().split("||");
         const verse = {
