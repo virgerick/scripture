@@ -6,14 +6,16 @@ import { Books } from "../Enums/Books";
 import { IBookType } from "../interfaces/IBookType";
 import { ITranslation } from "../interfaces/ITranslations";
 import { bookTypes } from "../models/BookTypes";
+import { Verse } from "../models/verse";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const [translations, setTranslations] = useState<Array<ITranslation>>([]);
   const [translation, setTranslation] = useState<string>("valera");
   const [book, setBook] = useState<string>("01O");
-  const [chapter, setChapter] = useState<number>();
-  const [chapters, setChapters] = useState<number[]>();
+  const [chapter, setChapter] = useState<number>(0);
+  const [chapters, setChapters] = useState<number[]>([]);
+  const [verses, setVerses] = useState<Verse[]>([]);
   const [cita, setCita] = useState<string>();
 
   const handlerSearch = async () => {
@@ -47,17 +49,24 @@ const Home: NextPage = () => {
   }, []);
   useEffect(() => {
     const getChapters = async () => {
-      const num=bookTypes.find(x=>x.code==book)?.chapters??0
-      let arr:number[]=[]
+      const num = bookTypes.find((x) => x.code == book)?.chapters ?? 0;
+      let arr: number[] = [];
       for (let index = 1; index <= num; index++) {
-        arr.push(index)
-
-
+        arr.push(index);
       }
       setChapters(arr);
     };
     getChapters();
   }, [book]);
+  useEffect(() => {
+    if (book && chapter && chapter > 0) {
+      fetch(`/api/passage?v=${translation}&b=${book}&c=${chapter}`)
+        .then(async (response) => {
+          setVerses(await response.json());
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [chapter,book,translation]);
   return (
     <div className={styles.container}>
       <Head>
@@ -70,41 +79,43 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="">Scripture</a>
         </h1>
-        <select
-          value={translation}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setTranslation(e.target.value);
-          }}
-        >
-          {translations.map((x) => (
-            <option value={x.abbreviation} key={x.hash}>
-              {x.abbreviation}-{x.language}
-            </option>
-          ))}
-        </select>
-        <select
-          name=""
-          id=""
-          value={book}
-          onChange={(e) => setBook(e.target.value)}
-        >
-          {Object.entries(Books).map((x) => (
-            <option key={x[1]} value={x[1]}>
-              {x[0].replace("_", " ").replace("_", " ").replace("_", " ")}
-            </option>
-          ))}
-        </select>
-        <select
-          value={chapter}
-          onChange={(e) => setChapter(Number(e.target.value))}
-        >
-          {chapters?.map((x) => (
-            <option key={x} value={x}>
-              {x}
-            </option>
-          ))}
-        </select>
+        <section className={styles.searchContainer}>
+          <select
+            value={translation}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setTranslation(e.target.value);
+            }}
+          >
+            {translations.map((x) => (
+              <option value={x.abbreviation} key={x.hash}>
+                {x.abbreviation}-{x.language}
+              </option>
+            ))}
+          </select>
+          <select
+            name=""
+            id=""
+            value={book}
+            onChange={(e) => setBook(e.target.value)}
+          >
+            {bookTypes.map((x, i) => (
+              <option key={i} value={x.code}>
+                {x.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={chapter}
+            onChange={(e) => setChapter(Number(e.target.value))}
+          >
+            {chapters?.map((x) => (
+              <option key={x} value={x}>
+                {x}
+              </option>
+            ))}
+          </select>
+        </section>
         <section className={styles.searchContainer}>
           <input
             type="text"
@@ -116,6 +127,13 @@ const Home: NextPage = () => {
           <button className={styles.searchButton} onClick={handlerSearch}>
             Search
           </button>
+        </section>
+        <section className={styles.versesContainer}>
+          {verses.map((v) => (
+            <p key={v.verse_nr}>
+              <sup>{v.verse_nr}</sup> {v.verse}
+            </p>
+          ))}
         </section>
       </main>
 

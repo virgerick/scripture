@@ -14,3 +14,8 @@ a {
 * {
   box-sizing: border-box;
 }
+select{
+  padding: 15px 10px;
+  font-size: large;
+
+}

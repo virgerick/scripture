@@ -47,6 +47,18 @@
   color: #0070f3;
   border: 1px solid #0070f3;
 }
+.versesContainer{
+  border: black 1px solid;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  margin: 2em;
+  max-width: 90%;
+  min-width: 300px;
+  width: 100%;
+  padding: 2rem;
+}
 .footer {
   display: flex;
   flex: 1;
