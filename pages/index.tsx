@@ -66,7 +66,7 @@ const Home: NextPage = () => {
         })
         .catch((error) => console.log(error));
     }
-  }, [chapter,book,translation]);
+  }, [chapter, book, translation]);
   return (
     <div className={styles.container}>
       <Head>
@@ -105,18 +105,8 @@ const Home: NextPage = () => {
               </option>
             ))}
           </select>
-          <select
-            value={chapter}
-            onChange={(e) => setChapter(Number(e.target.value))}
-          >
-            {chapters?.map((x) => (
-              <option key={x} value={x}>
-                {x}
-              </option>
-            ))}
-          </select>
         </section>
-        <section className={styles.searchContainer}>
+        {/* <section className={styles.searchContainer}>
           <input
             type="text"
             className={styles.inputSearch}
@@ -127,8 +117,23 @@ const Home: NextPage = () => {
           <button className={styles.searchButton} onClick={handlerSearch}>
             Search
           </button>
+        </section> */}
+        <section>
+          {chapters.map((x) => (
+            <button
+              onClick={(e) => setChapter(x)}
+              key={x}
+              style={{ backgroundColor: chapter == x ? "#0070f3" : "white" }}
+            >
+              {x}
+            </button>
+          ))}
         </section>
         <section className={styles.versesContainer}>
+          {verses.length > 0 && (
+            <h2>{bookTypes.find((x) => x.code == verses[0].book_nr)?.name}-{verses[0].chapter_nr}</h2>
+          )}
+          <hr />
           {verses.map((v) => (
             <p key={v.verse_nr}>
               <sup>{v.verse_nr}</sup> {v.verse}
