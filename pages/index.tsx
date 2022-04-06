@@ -74,7 +74,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <a href="">The Scripture</a>
+          <a href="">Scripture</a>
         </h1>
         <section className={styles.searchContainer}>
           <select
