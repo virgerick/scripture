@@ -157,7 +157,7 @@ const Home: NextPage = () => {
           rel="noopener noreferrer"
         >
           Powered by virgerick
-          <img src="/profile.jpg" alt="Vercel Logo" width={100} height={100} className="logo" />
+          {/* <img src="/profile.jpg" alt="Vercel Logo" width={100} height={100} className="logo" /> */}
         </a>
       </footer>
     </div>
