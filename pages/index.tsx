@@ -80,7 +80,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="">Scripture</a>
+          <a href="">The Scripture</a>
         </h1>
         <section className={styles.searchContainer}>
           <select
@@ -137,7 +137,7 @@ const Home: NextPage = () => {
             {verses.length > 0 && (
               <h2 style={{ textAlign: "center" }}>
                 {bookTypes.find((x) => x.code == verses[0].book_nr)?.name}-
-                {verses[0].chapter_nr}
+                <span style={{ color: "#0070f3" }}>{verses[0].chapter_nr}</span>
               </h2>
             )}
             <p>

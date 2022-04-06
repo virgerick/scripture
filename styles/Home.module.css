@@ -8,7 +8,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 .searchContainer {
@@ -58,10 +58,10 @@
   max-width: 90%;
   min-width: 300px;
   width: 100%;
-  padding: 2rem;
+  padding: 20px 0;
 }
 .versesContainer{
-  border: black 1px solid;
+  border: #0070f3 1px solid;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
