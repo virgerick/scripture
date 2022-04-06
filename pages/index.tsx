@@ -12,32 +12,12 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   const [translations, setTranslations] = useState<Array<ITranslation>>([]);
   const [translation, setTranslation] = useState<string>("valera");
+  const [showOldTestament, setShowOldTestament] = useState<boolean>(true);
   const [book, setBook] = useState<string>();
   const [chapter, setChapter] = useState<number>(0);
   const [chapters, setChapters] = useState<number[]>([]);
   const [verses, setVerses] = useState<Verse[]>([]);
-  const [cita, setCita] = useState<string>();
 
-  const handlerSearch = async () => {
-    let libro: string = "";
-    let chapter: string = "";
-    let verses: string = "";
-    const split = cita?.split(" ");
-    if (split && split?.length > 1) {
-      libro = split[0];
-      var arr = split[1].split(":");
-      chapter = arr[0];
-      verses = arr[1];
-    }
-    console.log({ book, chapter, verses });
-    try {
-      const result = await fetch(`api/passage?v=${translation}&b=${book}`);
-      const data = await result.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
     const getTranslations = async () => {
       const result = await fetch("api/translations");
@@ -49,7 +29,20 @@ const Home: NextPage = () => {
     setBook("01O");
   }, []);
   useEffect(() => {
-    setChapter(0);
+    const found = translations.find((t) => t.abbreviation == translation);
+    console.log({found});
+
+    if (found?.translation.includes("NT")) return setShowOldTestament(false);
+    setShowOldTestament(true);
+
+  }, [translation]);
+  useEffect(() => {
+    if (!showOldTestament && book?.includes("O"))return setBook("40N");
+    setBook("01O");
+
+  }, [showOldTestament]);
+  useEffect(() => {
+
     const getChapters = async () => {
       const num = bookTypes.find((x) => x.code == book)?.chapters ?? 0;
       let arr: number[] = [];
@@ -59,6 +52,7 @@ const Home: NextPage = () => {
       setChapters(arr);
     };
     getChapters();
+    setChapter(1);
   }, [book]);
   useEffect(() => {
     setVerses([]);
@@ -92,7 +86,7 @@ const Home: NextPage = () => {
           >
             {translations.map((x) => (
               <option value={x.abbreviation} key={x.hash}>
-                {x.abbreviation}-{x.language}
+                {x.translation}
               </option>
             ))}
           </select>
@@ -102,25 +96,29 @@ const Home: NextPage = () => {
             value={book}
             onChange={(e) => setBook(e.target.value)}
           >
-            {bookTypes.map((x, i) => (
-              <option key={i} value={x.code}>
-                {x.name}
-              </option>
-            ))}
+            {showOldTestament && (
+              <optgroup label="Old Testament" title="Old Testament">
+                {bookTypes
+                  .filter((x) => x.code.includes("O"))
+                  .map((x, i) => (
+                    <option key={i} value={x.code}>
+                      {x.name}
+                    </option>
+                  ))}
+              </optgroup>
+            )}
+
+            <optgroup label="New Testament" title="New Testament">
+              {bookTypes
+                .filter((x) => x.code.includes("N"))
+                .map((x, i) => (
+                  <option key={i} value={x.code}>
+                    {x.name}
+                  </option>
+                ))}
+            </optgroup>
           </select>
         </section>
-        {/* <section className={styles.searchContainer}>
-          <input
-            type="text"
-            className={styles.inputSearch}
-            placeholder="Jhon 14:1-16"
-            value={cita}
-            onChange={(e) => setCita(e.target.value)}
-          />
-          <button className={styles.searchButton} onClick={handlerSearch}>
-            Search
-          </button>
-        </section> */}
         <section className={styles.chaptersContainer}>
           {chapters.map((x) => (
             <button
@@ -143,7 +141,8 @@ const Home: NextPage = () => {
             <p>
               {verses.map((v) => (
                 <span key={v.verse_nr}>
-                  <sup>{v.verse_nr}</sup> {v.verse}
+                  <sup>{v.verse_nr}</sup>
+                  <span dangerouslySetInnerHTML={{ __html: v.verse }} />
                 </span>
               ))}
             </p>
