@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 
   }, [showOldTestament]);
   useEffect(() => {
-
+    setChapter(0);
     const getChapters = async () => {
       const num = bookTypes.find((x) => x.code == book)?.chapters ?? 0;
       let arr: number[] = [];
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
       setChapters(arr);
     };
     getChapters();
-    setChapter(1);
+
   }, [book]);
   useEffect(() => {
     setVerses([]);
