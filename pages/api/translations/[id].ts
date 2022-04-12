@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   const { id } = req.query;
 
-  const translation = translationRepository.getById(id[0]);
+  const translation = translationRepository.getById(id.toString());
   if (!translation) return res.status(400).json({ error: "not found" });
   res.status(200).json(translation);
 }
