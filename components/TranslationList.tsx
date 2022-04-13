@@ -3,6 +3,9 @@ import { useGetAllTranslationsQuery } from "../app/services/apiServices";
 
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setLanguages } from "../app/features/appSlice";
+import { SelectLanguage } from "./SelectLanguage";
+import styles from "../styles/TranslationList.module.css";
+import { Bible } from "./Bible";
 export const TranslationList = () => {
   const languages = useAppSelector((state) => state.app.languages);
   const language = useAppSelector((state) => state.app.language);
@@ -21,12 +24,15 @@ export const TranslationList = () => {
   }, [translations]);
 
   return (
-    <div>
-      {JSON.stringify(
-        translations
+    <div style={{ width: "100%" }}>
+      <br />
+      <section className={styles.grid}>
+        {translations
           ?.filter((x) => (language != "" ? x.language == language : true))
-          ?.map((x) => x.abbreviation)
-      )}
+          ?.map((t) => (
+            <Bible translation={t} key={t.id} />
+          ))}
+      </section>
     </div>
   );
 };
