@@ -23,19 +23,23 @@ export const TranslationList = () => {
   }, [translations]);
 
   return (
-    <div >
+    <div>
       <div className="">
         <SelectLanguage />
       </div>
       <br />
 
-      <section className={styles.grid}>
-        {translations
-          ?.filter((x) => (language != "" ? x.language == language : true))
-          ?.map((t) => (
-            <Bible translation={t} key={t.id} />
-          ))}
-      </section>
+      {isLoading ? (
+        <p>Loading</p>
+      ) : (
+        <section className={styles.grid}>
+          {translations
+            ?.filter((x) => (language != "" ? x.language == language : true))
+            ?.map((t) => (
+              <Bible translation={t} key={t.id} />
+            ))}
+        </section>
+      )}
     </div>
   );
 };
