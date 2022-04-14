@@ -27,7 +27,8 @@
 
 .front,
 .back {
-  background: #031830;
+  /* background: #0070f3; */
+  background: #023e7d;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -7,7 +7,6 @@ import { SelectLanguage } from "./SelectLanguage";
 import styles from "../styles/TranslationList.module.css";
 import { Bible } from "./Bible";
 export const TranslationList = () => {
-  const languages = useAppSelector((state) => state.app.languages);
   const language = useAppSelector((state) => state.app.language);
   const dispatch = useAppDispatch();
   const { data: translations, error, isLoading } = useGetAllTranslationsQuery();
@@ -24,8 +23,12 @@ export const TranslationList = () => {
   }, [translations]);
 
   return (
-    <div style={{ width: "100%" }}>
+    <div >
+      <div className="">
+        <SelectLanguage />
+      </div>
       <br />
+
       <section className={styles.grid}>
         {translations
           ?.filter((x) => (language != "" ? x.language == language : true))

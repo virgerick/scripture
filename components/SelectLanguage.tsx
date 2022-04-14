@@ -7,8 +7,8 @@ export const SelectLanguage = () => {
   const language = useAppSelector((state) => state.app.language);
   const dispatch = useAppDispatch();
   return (
-    <div style={{display:'flex',flexDirection:'column'}}>
-     <label htmlFor="selectLanguage">Idioma</label>
+    <div>
+     <label htmlFor="selectLanguage">Traduccion </label>
       <select id="selectLanguage" value={language}
       onChange={(e)=> dispatch(setLanguage(e.target.value))}>
         <option value={""}>Todas</option>
