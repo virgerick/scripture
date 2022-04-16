@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
-import React from "react";
-import { useGetTranslationByIdQuery } from "../../app/services/apiServices";
+import { Read } from "../../components/Read";
+import {
+  useGetTranslationByIdQuery,
+  useGetVersesByBookChapterBookAndVersesQuery,
+} from "../../app/services/apiServices";
 
 const Bible = () => {
   const router = useRouter();
@@ -8,12 +11,28 @@ const Bible = () => {
   const {
     data: translation,
     error,
-    isLoading,isError
+    isLoading,
+    isError,
   } = useGetTranslationByIdQuery(Number(id));
+
+  const {
+    data: verses,
+    error: errorVerses,
+    isFetching: isLoadingVerses,
+  } = useGetVersesByBookChapterBookAndVersesQuery({
+    version: translation?.abbreviation,
+  });
   return (
     <div>
-      {isLoading ? <p>Loaging...</p> : <p>{translation?.abbreviation}</p>}
-    <>{isError&&error}</>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : isLoadingVerses ? (
+        <p>Loading...</p>
+      ) : (
+        verses&&verses.length>0&&
+          <Read verses={verses}/>
+      )}
+      <>{isError && error}</>
     </div>
   );
 };

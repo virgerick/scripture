@@ -11,7 +11,7 @@ export default function Layout({ children }:any) {
       </Head>
       <Header/>
       <main className={styles.main}>{children}</main>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   )
 }

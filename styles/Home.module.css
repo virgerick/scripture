@@ -63,16 +63,21 @@
   padding: 20px 0;
 }
 .versesContainer{
-  border: #0070f3 1px solid;
+  background-color: #fff;
+  /* border: #0070f3 1px solid; */
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   text-align: justify;
-  max-width: 90%;
-  min-width: 300px;
+  padding: 1rem;
   width: 100%;
-  padding: 2rem;
+  overflow-y: auto;
+  height: 90vh;
 }
+.versesContainer p{
+  margin:0 0  2rem 0;
+}
+
 .footer {
   display: flex;
   flex: 1;

@@ -22,12 +22,15 @@ export const api = createApi({
       }),
       getVersesByBookChapterBookAndVerses: builder.query<
         Verse[],
-        { version: string; book: string; chapter: string; verses: string }
+        { version?: string;
+          book?: string;
+          chapter?: string;
+           verses?: string }
       >({
         query: (req) =>
-          `passage?v=${req.version}${req.book && `&b=${req.book}`}${
-            req.chapter && `&c=${req.chapter}`
-          }${req.verses && `&verses=${req.verses}`}`,
+          `passage?${req.version&&`v=${req.version}`}${req.book?`&b=${req.book}`:''}${
+            req.chapter? `&c=${req.chapter}`:''
+          }${req.verses? `&verses=${req.verses}`:''}`,
       }),
     };
   },

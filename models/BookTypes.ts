@@ -214,13 +214,6 @@ export const bookTypes: Array<IBookType> = [
     chapters: 14,
     code: BookType.Zechariah
   },
-
-  {
-    name: "Zacarías",
-    chapters: 14,
-    code: BookType.Zechariah
-  },
-
   {
     name: "Malaquías",
     chapters: 4,
