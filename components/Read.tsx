@@ -1,4 +1,6 @@
-import React, { LegacyRef, useEffect, useRef, useState } from "react";
+/* eslint-disable react/display-name */
+
+import React, { LegacyRef,forwardRef, useEffect, useRef, useState } from "react";
 import { useWindowSize } from "../hooks/useWindowSize";
 import HTMLFlipBook from "react-pageflip";
 import styles from "../styles/Home.module.css";
@@ -7,8 +9,9 @@ import { Verse } from "../models/verse";
 interface IPageProps {
   verses?: Verse[];
 }
-const Page = React.forwardRef(
+const Page = forwardRef(
   (props: IPageProps, ref: LegacyRef<HTMLDivElement> | undefined) => {
+
     const { verses } = props;
     return (
       <div className="demoPage" ref={ref} style={{ overflowY: "auto" }}>
@@ -53,7 +56,7 @@ export function Read({ verses }: IPageProps) {
     }
     loadPages();
     setChapters(pages);
-  }, []);
+  }, [verses]);
 
   return (
     <section>
@@ -98,3 +101,5 @@ export function Read({ verses }: IPageProps) {
     </section>
   );
 }
+
+
