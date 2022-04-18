@@ -1,4 +1,5 @@
 // import { readFileSync } from "fs";
+import { readFileSync } from "fs";
 import { IBible } from "../interfaces/IBible";
 import { IBook } from "../interfaces/IBook";
 import { IChapter } from "../interfaces/IChapter";
@@ -38,12 +39,12 @@ export const loadVerses = async (
 
   const verses: Array<any> = [];
   try {
-    //const path: string = `./Assets/resources/${translation.filename}.txt`;
-    //const file = await readFileSync(path, "utf8");
-    const result = await fetch(
+   const path: string = `./Assets/resources/${translation.filename}.txt`;
+   const file = await readFileSync(path, "utf8");
+   /* const result = await fetch(
       `https://raw.githubusercontent.com/virgerick/scripture/main/Assets/resources/${translation.filename}.txt`
     );
-    const file = await result.text();
+    const file = await result.text();*/
     if (file != null) {
       const lines =decodeURIComponent(file).split("\n");
       lines.forEach((line) => {
