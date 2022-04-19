@@ -6,7 +6,7 @@ export  enum BookType{
     Deuteronomy='05O',
     Joshua='06O',
     Judges='07O',
-    Ruth='080',
+    Ruth='08O',
     _1_Samuel='09O',
     _2_Samuel='10O',
     _1_Kings='11O',
