@@ -21,17 +21,18 @@ export const loadVerses = async (
   translation: ITranslation
 ): Promise<Array<Verse>> => {
   const verses: Array<Verse> = [];
-  /*/  const result = await fetch(
-      `https://raw.githubusercontent.com/virgerick/scripture/main/public/Assets/resources/${translation.filename}.txt`
-    )
-    const file = await result.text();*/
-  const file = await readFileSync(
-    `.${
-      process.env.NODE_ENV == "development" ? "/public" : ""
-    }/Assets/resources/${translation.filename}.txt`,
-    "utf8"
-  );
-
+  let file: string = "";
+  if (process.env.NODE_ENV == "development") {
+    file = readFileSync(
+      `./public/Assets/resources/${translation.filename}.txt`,
+      "utf8"
+    );
+  } else {
+    const result = await fetch(
+      `https://thescripture.vercel.app/Assets/resources/${translation.filename}.txt`
+    );
+    file = await result.text();
+  }
   if (file != null) {
     const lines = file.split("\n");
     lines.forEach((line) => {
