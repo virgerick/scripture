@@ -18,7 +18,7 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
-  book: "",
+  book: '01O',
   chapter: 0,
   chapters: [],
   language: "Spanish",
