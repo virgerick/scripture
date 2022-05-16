@@ -21,7 +21,11 @@ const Page = forwardRef(
   (props: IPageProps, ref: LegacyRef<HTMLDivElement> | undefined) => {
     const { verses } = props;
     return (
-      <div className="demoPage" ref={ref} style={{ overflowY: "auto" }}>
+      <div
+        className="demoPage"
+        ref={ref}
+        style={{ overflowY: "auto", padding: 20 }}
+      >
         {verses && verses.length > 0 && (
           <section className={styles.versesContainer}>
             {verses.length > 0 && (
@@ -52,16 +56,17 @@ export function Read({ verses }: IPageProps) {
   const bookRef = useRef<any>();
   const size = useWindowSize();
   const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [usePortrait, setUsePortrait] = useState<boolean>(false);
   useEffect(() => {
     const pages: Array<Verse[]> = [];
     // setChapters([]);
     function loadPages() {
       const bookType = bookTypes.find((b) => b.code == book);
-      if(bookType)
+      if (bookType)
         for (let chapter: number = 1; chapter <= bookType.chapters; chapter++) {
-          console.log("chapter", chapter);
-
-          const found = verses?.filter((v) => v.chapter_nr == chapter.toString());
+          const found = verses?.filter(
+            (v) => v.chapter_nr == chapter.toString()
+          );
           if (found) pages.push(found);
         }
 
@@ -71,11 +76,21 @@ export function Read({ verses }: IPageProps) {
   }, [verses]);
   useEffect(() => {
     setIsVisible(false);
-    setIsVisible(true);
+    setTimeout(() => {
+      setUsePortrait(size.x <= 700);
+      setIsVisible(() => true);
+    }, 500);
   }, [size]);
 
   return (
-    <section>
+    <section
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <select
         value={book}
         onChange={(e) => {
@@ -90,10 +105,9 @@ export function Read({ verses }: IPageProps) {
       </select>
       {isVisible && (
         <>
-          {" "}
           <HTMLFlipBook
             ref={bookRef}
-            width={size.x - size.x * 0.5}
+            width={usePortrait ? size.x - size.x * 0.02 : size.x - size.x * 0.5}
             height={size.y - size.y * 0.15}
             style={{ overflow: "hidden", margin: "auto" }}
             flippingTime={1000}
@@ -105,7 +119,7 @@ export function Read({ verses }: IPageProps) {
             minHeight={0}
             maxHeight={0}
             drawShadow={true}
-            usePortrait={false}
+            usePortrait={usePortrait}
             startZIndex={0}
             autoSize={true}
             maxShadowOpacity={0.7}
@@ -122,8 +136,7 @@ export function Read({ verses }: IPageProps) {
                 {verses && verses.length > 0 && (
                   <section className={styles.versesContainer}>
                     {verses.length > 0 && (
-                      <article>
-                        {" "}
+                      <article style={{padding:"0 15px 30px 15px"}}>
                         <h2 style={{ textAlign: "center" }}>
                           {
                             bookTypes.find((x) => x.code == verses[0].book_nr)
@@ -155,7 +168,17 @@ export function Read({ verses }: IPageProps) {
           <Page verses={chapter} key={i}></Page>
         ))} */}
           </HTMLFlipBook>
-          <div className={styles.grid}>
+          <div
+            style={{
+              width: "100%",
+              height: "25px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap:15
+            }}
+          >
             <button onClick={() => bookRef.current.pageFlip().flipPrev()}>
               Prev page
             </button>

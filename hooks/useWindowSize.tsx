@@ -11,7 +11,6 @@ export function useWindowSize() {
       y: window.innerHeight,
     });
   useEffect(() => {
-
     window.onresize = updateSize;
   }, []);
   return size
