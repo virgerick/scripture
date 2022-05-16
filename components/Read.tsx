@@ -14,8 +14,11 @@ import { bookTypes } from "../models/BookTypes";
 import { Verse } from "../models/verse";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setBook } from "../app/features/appSlice";
+import { useGetTranslationByIdQuery } from "../app/services/apiServices";
+import { ITranslation } from "../interfaces/ITranslations";
 interface IPageProps {
   verses?: Verse[];
+  translation?: ITranslation;
 }
 const Page = forwardRef(
   (props: IPageProps, ref: LegacyRef<HTMLDivElement> | undefined) => {
@@ -49,9 +52,10 @@ const Page = forwardRef(
   }
 );
 
-export function Read({ verses }: IPageProps) {
+export function Read({ verses, translation }: IPageProps) {
   const [chapters, setChapters] = useState<Array<Verse[]>>([]);
   const book = useAppSelector((state) => state.app.book);
+
   const dispatch = useAppDispatch();
   const bookRef = useRef<any>();
   const size = useWindowSize();
@@ -77,7 +81,7 @@ export function Read({ verses }: IPageProps) {
   useEffect(() => {
     setIsVisible(false);
     setTimeout(() => {
-      setUsePortrait(size.x <= 700);
+      setUsePortrait(size.x <= 900);
       setIsVisible(() => true);
     }, 500);
   }, [size]);
@@ -112,7 +116,7 @@ export function Read({ verses }: IPageProps) {
             style={{ overflow: "hidden", margin: "auto" }}
             flippingTime={1000}
             className=""
-            startPage={1}
+            startPage={0}
             size={"fixed"}
             minWidth={0}
             maxWidth={500}
@@ -123,20 +127,56 @@ export function Read({ verses }: IPageProps) {
             startZIndex={0}
             autoSize={true}
             maxShadowOpacity={0.7}
-            showCover={false}
+            showCover={true}
             mobileScrollSupport={true}
             clickEventForward={false}
             useMouseEvents={false}
             swipeDistance={10}
             showPageCorners={true}
-            disableFlipByClick
+            disableFlipByClick={false}
           >
+            <div className="page-1">
+              <div
+                className={styles.portadaBook}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 15,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <h1>
+                  {chapters && bookTypes.find((x) => x.code == book)?.name}
+                </h1>
+                <label htmlFor="">{translation?.translation}</label>
+                <label htmlFor="">{translation?.language}</label>
+                <label htmlFor="">{translation?.textdirection}</label>
+                <section className={styles.chaptersContainer}>
+                  {chapters.map((x, i) => (
+                    <button
+                      key={i}
+                      onClick={(e) => {
+                        bookRef.current
+                          .pageFlip()
+                          .flip(Number(x[0].chapter_nr)+1, "top");
+                      }}
+                    >
+                      {x[0].chapter_nr}
+                    </button>
+                  ))}
+                </section>
+              </div>
+            </div>
+            <div className="page"></div>
             {chapters.map((chapter, i) => (
               <div className={`Page${i}`} style={{ overflowY: "auto" }} key={i}>
                 {verses && verses.length > 0 && (
                   <section className={styles.versesContainer}>
                     {verses.length > 0 && (
-                      <article style={{padding:"0 15px 30px 15px"}}>
+                      <article style={{ padding: "0 15px 30px 15px" }}>
                         <h2 style={{ textAlign: "center" }}>
                           {
                             bookTypes.find((x) => x.code == verses[0].book_nr)
@@ -176,11 +216,14 @@ export function Read({ verses }: IPageProps) {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              gap:15
+              gap: 15,
             }}
           >
             <button onClick={() => bookRef.current.pageFlip().flipPrev()}>
               Prev page
+            </button>
+            <button onClick={() => bookRef.current.pageFlip().flip(5, "top")}>
+              5
             </button>
             <button onClick={() => bookRef.current.pageFlip().flipNext()}>
               Next page

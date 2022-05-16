@@ -12,7 +12,7 @@ export const api = createApi({
         query: () => `translations`,
       }),
       getTranslationById: builder.query<ITranslation, number>({
-        query: (id) => `translations/${id}`,
+        query: (id:number) => `translations/${id}`,
       }),
       getChapterByVersionAndBook: builder.query<
         Verse[],

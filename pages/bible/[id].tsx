@@ -36,7 +36,7 @@ const Bible = () => {
         <p>Loading...</p>
       ) : (
         verses&&verses.length>0&&
-          <Read verses={verses}/>
+          <Read verses={verses} translation={translation}/>
       )}
       <>{isError && error}</>
     </div>

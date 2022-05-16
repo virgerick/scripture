@@ -11,11 +11,13 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "@types/react-redux": "^7.1.23",
+    "mysql2": "^2.3.3",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-pageflip": "^2.0.3",
-    "react-redux": "^7.2.8"
+    "react-redux": "^7.2.8",
+    "sequelize": "^6.19.0"
   },
   "devDependencies": {
     "@types/node": "17.0.21",
