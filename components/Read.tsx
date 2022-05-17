@@ -204,8 +204,11 @@ export function Read({ verses, translation }: IPageProps) {
                               //   <sup>{v.verse_nr}</sup>
                               //   <span dangerouslySetInnerHTML={{ __html: v.verse }} />
                               // </span>
-                              <li key={`${verses[0].book_nr} ${v.verse_nr}`}>
-                                {v.verse}
+                              <li
+                                key={`${verses[0].book_nr} ${v.verse_nr}`}
+                                dangerouslySetInnerHTML={{ __html: v.verse }}
+                              >
+                                {/* {v.verse} */}
                               </li>
                             ))}
                           </ol>
