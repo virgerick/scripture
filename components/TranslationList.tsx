@@ -23,10 +23,8 @@ export const TranslationList = () => {
   }, [translations]);
 
   return (
-    <div>
-      <div className="">
-        <SelectLanguage />
-      </div>
+    <>
+      <SelectLanguage />
       <br />
 
       {isLoading ? (
@@ -40,6 +38,6 @@ export const TranslationList = () => {
             ))}
         </section>
       )}
-    </div>
+    </>
   );
 };

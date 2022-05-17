@@ -1,5 +1,5 @@
 :root {
-  --white:#FFFFFF;
+  --white: #ffffff;
   --true-blue: #0466c8ff;
   --usafa-blue: #0353a4ff;
   --dark-cornflower-blue: #023e7dff;
@@ -40,4 +40,11 @@ button {
   border-radius: 3px;
   padding: 2px 5px;
   min-width: 40px;
+}
+
+rtl {
+  direction: rtl;
+}
+ltr {
+  direction: ltr;
 }

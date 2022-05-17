@@ -14,7 +14,6 @@ import { bookTypes } from "../models/BookTypes";
 import { Verse } from "../models/verse";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setBook } from "../app/features/appSlice";
-import { useGetTranslationByIdQuery } from "../app/services/apiServices";
 import { ITranslation } from "../interfaces/ITranslations";
 interface IPageProps {
   verses?: Verse[];
@@ -61,6 +60,7 @@ export function Read({ verses, translation }: IPageProps) {
   const size = useWindowSize();
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [usePortrait, setUsePortrait] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     const pages: Array<Verse[]> = [];
     // setChapters([]);
@@ -75,6 +75,7 @@ export function Read({ verses, translation }: IPageProps) {
         }
 
       setChapters(pages);
+      setCurrentPage(1);
     }
     loadPages();
   }, [verses]);
@@ -161,7 +162,7 @@ export function Read({ verses, translation }: IPageProps) {
                       onClick={(e) => {
                         bookRef.current
                           .pageFlip()
-                          .flip(Number(x[0].chapter_nr)+1, "top");
+                          .flip(Number(x[0].chapter_nr) + 1, "top");
                       }}
                     >
                       {x[0].chapter_nr}
@@ -176,16 +177,28 @@ export function Read({ verses, translation }: IPageProps) {
                 {verses && verses.length > 0 && (
                   <section className={styles.versesContainer}>
                     {verses.length > 0 && (
-                      <article style={{ padding: "0 15px 30px 15px" }}>
-                        <h2 style={{ textAlign: "center" }}>
+                      <article
+                        dir={translation?.textdirection}
+                        style={{ padding: "0 15px 30px 15px" }}
+                      >
+                        <h2
+                          style={{ textAlign: "center" }}
+                          dir={translation?.textdirection}
+                        >
                           {
                             bookTypes.find((x) => x.code == verses[0].book_nr)
                               ?.name
                           }
-                          -<span style={{ color: "#0070f3" }}>{i + 1}</span>
+                          -
+                          <span
+                            style={{ color: "#0070f3" }}
+                            lang={translation?.language}
+                          >
+                            {i + 1}
+                          </span>
                         </h2>
                         {chapter && chapter.length > 0 && (
-                          <ol>
+                          <ol style={{ listStyleType: translation?.language }}>
                             {chapter.map((v) => (
                               // <span key={v.verse_nr}>
                               //   <sup>{v.verse_nr}</sup>
@@ -219,13 +232,38 @@ export function Read({ verses, translation }: IPageProps) {
               gap: 15,
             }}
           >
-            <button onClick={() => bookRef.current.pageFlip().flipPrev()}>
+            <button
+              onClick={() => {
+                bookRef.current.pageFlip().flipPrev();
+                const current = bookRef.current
+                  .pageFlip()
+                  .getCurrentPageIndex();
+                console.log(current);
+                if (current >= 1) setCurrentPage(current);
+              }}
+            >
               Prev page
             </button>
-            <button onClick={() => bookRef.current.pageFlip().flip(5, "top")}>
-              5
-            </button>
-            <button onClick={() => bookRef.current.pageFlip().flipNext()}>
+            {/*
+            <button
+              onClick={() => {
+                bookRef.current.pageFlip().flip(5, "top");
+              }}
+            >
+              {currentPage}
+            </button> */}
+
+            <button
+              onClick={() => {
+                bookRef.current.pageFlip().flipNext();
+                const current = bookRef.current
+                  .pageFlip()
+                  .getCurrentPageIndex();
+                console.log(current);
+                if (current > 0) return setCurrentPage(current);
+                setCurrentPage(2);
+              }}
+            >
               Next page
             </button>
           </div>
