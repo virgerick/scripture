@@ -1,9 +1,9 @@
 
+import { IBookType } from "./IBookType";
 import { IChapter } from "./IChapter";
 
 export interface IBook {
-    id?:string
-    name?:string
-    abbrev?: string
+    translationId?:number
+    type:IBookType;
     chapters:Array<IChapter>
 }

@@ -31,39 +31,7 @@ const Home: NextPage = () => {
     getTranslations();
     setBook("01O");
   }, []);
-  useEffect(() => {
-    const found = translations.find((t) => t.abbreviation == translation);
-    console.log({ found });
 
-    if (found?.translation.includes("NT")) return setShowOldTestament(false);
-    setShowOldTestament(true);
-  }, [translation]);
-  useEffect(() => {
-    if (!showOldTestament && book?.includes("O")) return setBook("40N");
-    setBook("01O");
-  }, [showOldTestament]);
-  useEffect(() => {
-    setChapter(0);
-    const getChapters = async () => {
-      const num = bookTypes.find((x) => x.code == book)?.chapters ?? 0;
-      let arr: number[] = [];
-      for (let index = 1; index <= num; index++) {
-        arr.push(index);
-      }
-      setChapters(arr);
-    };
-    getChapters();
-  }, [book]);
-  useEffect(() => {
-    setVerses([]);
-    if (book && chapter && chapter > 0) {
-      fetch(`/api/passage?v=${translation}&b=${book}&c=${chapter}`)
-        .then(async (response) => {
-          setVerses(await response.json());
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [chapter, book, translation]);
   return (
     <div className={styles.container}>
       <Head>
@@ -77,81 +45,7 @@ const Home: NextPage = () => {
         </h1>
         <br />
         <TranslationList />
-        {/* <section className={styles.searchContainer}>
-          <select
-            value={translation}
-            onChange={(e) => {
-              console.log(e.target.value);
-              setTranslation(e.target.value);
-            }}
-          >
-            {translations.map((x) => (
-              <option value={x.abbreviation} key={x.hash}>
-                {x.translation}
-              </option>
-            ))}
-          </select>
-          <select
-            name=""
-            id=""
-            value={book}
-            onChange={(e) => setBook(e.target.value)}
-          >
-            {showOldTestament && (
-              <optgroup label="Old Testament" title="Old Testament">
-                {bookTypes
-                  .filter((x) => x.code.includes("O"))
-                  .map((x, i) => (
-                    <option key={i} value={x.code}>
-                      {x.name}
-                    </option>
-                  ))}
-              </optgroup>
-            )}
-
-            <optgroup label="New Testament" title="New Testament">
-              {bookTypes
-                .filter((x) => x.code.includes("N"))
-                .map((x, i) => (
-                  <option key={i} value={x.code}>
-                    {x.name}
-                  </option>
-                ))}
-            </optgroup>
-          </select>
-        </section>
-        <section className={styles.chaptersContainer}>
-          {chapters.map((x) => (
-            <button
-              onClick={(e) => setChapter(x)}
-              key={x}
-              style={{ backgroundColor: chapter == x ? "#0070f3" : "white" }}
-            >
-              {x}
-            </button>
-          ))}
-        </section>
-        {verses.length > 0 && (
-          <section className={styles.versesContainer}>
-            {verses.length > 0 && (
-              <h2 style={{ textAlign: "center" }}>
-                {bookTypes.find((x) => x.code == verses[0].book_nr)?.name}-
-                <span style={{ color: "#0070f3" }}>{verses[0].chapter_nr}</span>
-              </h2>
-            )}
-            <p>
-              {verses.map((v) => (
-                <span key={v.verse_nr}>
-                  <sup>{v.verse_nr}</sup>
-                  <span dangerouslySetInnerHTML={{ __html: v.verse }} />
-                </span>
-              ))}
-            </p>
-          </section>
-        )} */}
       </main>
-
-
     </div>
   );
 };

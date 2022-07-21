@@ -1,5 +1,4 @@
 export interface IVerse {
-    id:string
+    number:number
     text:string
-    direction:string
 }

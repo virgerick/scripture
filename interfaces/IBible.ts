@@ -1,10 +1,11 @@
-import { IBook } from "./IBook";
+import { IBookType } from "./IBookType";
+
 
 export interface IBible{
     id?:number,
     language?:string,
     translation?:string,
     abbreviation?:string,
-    textDirection?:string,
-    books:Array<IBook>
+    textdirection?:string,
+    books:Array<IBookType>
 }

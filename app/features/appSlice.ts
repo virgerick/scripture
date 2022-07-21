@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IBookType } from "../../interfaces/IBookType";
+import { IProgressRead } from "../../interfaces/IProgressRead";
 import { ITranslation } from "../../interfaces/ITranslations";
+import { IValueKey } from "../../interfaces/IValueKey";
 import { Verse } from "../../models/verse";
 import type { RootState } from "../store";
 
 // Define a type for the slice state
 interface AppState {
   book: string;
+  bookTypes: IBookType[];
+  progress: Array<IProgressRead>;
   chapter: number;
   chapters: number[];
   language: string;
@@ -18,7 +23,9 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
-  book: '01O',
+  book: "01O",
+  progress: [],
+  bookTypes: [],
   chapter: 0,
   chapters: [],
   language: "Spanish",
@@ -37,6 +44,9 @@ export const appSlice = createSlice({
     setBook: (state, action: PayloadAction<string>) => {
       state.book = action.payload;
     },
+    setBookTypes: (state, action: PayloadAction<Array<IBookType>>) => {
+      state.bookTypes = action.payload;
+    },
     setChapter: (state, action: PayloadAction<number>) => {
       state.chapter = action.payload;
     },
@@ -53,6 +63,19 @@ export const appSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    setProgress: (state, action: PayloadAction<IProgressRead>) => {
+      const progress = state.progress.find(
+        (x) => x.translationId == action.payload.translationId
+      );
+
+      if (!progress) {
+        state.progress.push(action.payload);
+        return;
+      }
+      progress.translationId = action.payload.translationId;
+      progress.book = action.payload.book;
+      progress.chapter = action.payload.chapter;
+    },
     setTranslations: (state, action: PayloadAction<ITranslation[]>) => {
       state.translations = action.payload;
     },
@@ -67,6 +90,7 @@ export const appSlice = createSlice({
 
 export const {
   setBook,
+  setBookTypes,
   setChapter,
   setChapters,
   setLanguage,
@@ -75,10 +99,12 @@ export const {
   setTranslation,
   setTranslations,
   setVerses,
+  setProgress,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBook = (state: RootState) => state.app.book;
+export const selectBookTypes = (state: RootState) => state.app.bookTypes;
 export const selectChapter = (state: RootState) => state.app.chapter;
 export const selectChapters = (state: RootState) => state.app.chapters;
 export const selectLanguage = (state: RootState) => state.app.language;
@@ -87,5 +113,6 @@ export const selectLoading = (state: RootState) => state.app.loading;
 export const selectTranslation = (state: RootState) => state.app.translation;
 export const selectTranslations = (state: RootState) => state.app.translations;
 export const selectVerses = (state: RootState) => state.app.verses;
+export const selectProgress = (state: RootState) => state.app.progress;
 
 export default appSlice.reducer;

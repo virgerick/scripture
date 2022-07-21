@@ -1,6 +1,6 @@
 import { IVerse } from "./IVerse";
 
 export interface IChapter {
-    id:string
+    number:number;
     verses:Array<IVerse>
 }
