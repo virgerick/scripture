@@ -1,3 +1,4 @@
+export const bibleRepository={}
 /*import { Books } from "../Enums/Books";
 import { IBible } from "../interfaces/IBible";
 import { IBook } from "../interfaces/IBook";
@@ -50,3 +51,4 @@ const loadBible=(translation:ITranslation,verses:Array<Verse>):IBible=>{
 }
 
 export { bibleRepository ,loadBible};
+*/

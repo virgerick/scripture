@@ -1,3 +1,4 @@
+export const translationRepository={}
 /*import { ITranslation } from "../interfaces/ITranslations";
 import translationsJson from "../public/Assets/translations.json";
 export default class TranslationRepository {
@@ -17,3 +18,4 @@ export default class TranslationRepository {
 const translationRepository = new TranslationRepository();
 
 export { translationRepository };
+*/

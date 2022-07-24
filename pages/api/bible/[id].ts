@@ -1,4 +1,9 @@
-/*import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {}
+/*
 import { IBible } from "../../../interfaces/IBible";
 import { loadBible } from "../../../repositories/bibleRepository";
 import { translationRepository } from "../../../repositories/translationRepository";
@@ -25,3 +30,4 @@ export default async function handler(
     res.status(400).json(error);
   }
 }
+*/

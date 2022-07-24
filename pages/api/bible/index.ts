@@ -1,5 +1,9 @@
-/*import { readFileSync } from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {}
+/*import { readFileSync } from "fs";
 import { Books } from "../../../Enums/Books";
 import { IBible } from "../../../interfaces/IBible";
 import { IBook } from "../../../interfaces/IBook";
@@ -31,10 +35,10 @@ export default async function handler(
   try {
     const path: string = `./public/Assets/resources/${translation.filename}.txt`;
     const file = await readFileSync(path, "utf8");
-   /* const result = await fetch(
-      `/public/Assets/resources/${translation.filename}.txt`
-    );
-    const file = await result.text();*/
+  //   const result = await fetch(
+  //     `/public/Assets/resources/${translation.filename}.txt`
+  //   );
+  //   const file = await result.text();
     if (file != null) {
       const lines = file.split("\n");
       lines.forEach((line) => {
@@ -80,3 +84,4 @@ export default async function handler(
   }
   res.status(200).json(bible);
 }
+*/

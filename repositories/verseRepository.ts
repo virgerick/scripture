@@ -1,3 +1,4 @@
+export const verseRepository={}
 /*import { readFileSync } from "fs";
 import { ITranslation } from "../interfaces/ITranslations";
 import { IVerse } from "../interfaces/IVerse";
@@ -53,3 +54,4 @@ export const loadVerses = async (
 
 const verseRepository = new VerseRepository();
 export { verseRepository };
+*/

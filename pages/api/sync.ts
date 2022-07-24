@@ -1,5 +1,6 @@
-/*import { NextApiRequest, NextApiResponse } from "next";
-import { sequelize } from "../../database";
+
+import { NextApiRequest, NextApiResponse } from "next";
+// import { sequelize } from "../../database";
 import  "../../schemas/index"
 export default async function handler(
   req: NextApiRequest,
@@ -7,7 +8,7 @@ export default async function handler(
 ) {
   let err: any=null;
   try {
-    await sequelize.sync({force:true});
+   // await sequelize.sync({force:true});
 
     err = "Connection has been established successfully.";
      console.log(err);
