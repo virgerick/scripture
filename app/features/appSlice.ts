@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IBible } from "../../interfaces/IBible";
 import { IBookType } from "../../interfaces/IBookType";
 import { IProgressRead } from "../../interfaces/IProgressRead";
 import { ITranslation } from "../../interfaces/ITranslations";
@@ -9,7 +10,7 @@ import type { RootState } from "../store";
 // Define a type for the slice state
 interface AppState {
   book: string;
-  bookTypes: IBookType[];
+  bible?:IBible,
   progress: Array<IProgressRead>;
   chapter: number;
   chapters: number[];
@@ -25,7 +26,6 @@ interface AppState {
 const initialState: AppState = {
   book: "01O",
   progress: [],
-  bookTypes: [],
   chapter: 0,
   chapters: [],
   language: "Spanish",
@@ -44,8 +44,8 @@ export const appSlice = createSlice({
     setBook: (state, action: PayloadAction<string>) => {
       state.book = action.payload;
     },
-    setBookTypes: (state, action: PayloadAction<Array<IBookType>>) => {
-      state.bookTypes = action.payload;
+    setBible: (state, action: PayloadAction<IBible>) => {
+      state.bible = action.payload;
     },
     setChapter: (state, action: PayloadAction<number>) => {
       state.chapter = action.payload;
@@ -90,7 +90,7 @@ export const appSlice = createSlice({
 
 export const {
   setBook,
-  setBookTypes,
+  setBible,
   setChapter,
   setChapters,
   setLanguage,
@@ -104,7 +104,7 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBook = (state: RootState) => state.app.book;
-export const selectBookTypes = (state: RootState) => state.app.bookTypes;
+export const selectBible = (state: RootState) => state.app.bible;
 export const selectChapter = (state: RootState) => state.app.chapter;
 export const selectChapters = (state: RootState) => state.app.chapters;
 export const selectLanguage = (state: RootState) => state.app.language;

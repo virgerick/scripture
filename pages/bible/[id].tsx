@@ -7,11 +7,7 @@ import {
   useGetVersesByBookChapterBookAndVersesQuery,
 } from "../../app/services/apiServices";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  setBookTypes,
-  setProgress,
-  setVerses,
-} from "../../app/features/appSlice";
+import { setBible, setProgress, setVerses } from "../../app/features/appSlice";
 import { useEffect, useState } from "react";
 import { apiService } from "../../services/apiService";
 import Loading from "../../components/Loading";
@@ -22,7 +18,7 @@ const Bible = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const progress = useAppSelector((state) => state.app.progress);
-  const bookTypes = useAppSelector((state) => state.app.bookTypes);
+  const bible = useAppSelector((state) => state.app.bible);
   const [book, setBook] = useState<IBook>();
   const [chapter, setChapter] = useState<number>();
   const id: number = router.query?.id
@@ -36,16 +32,20 @@ const Bible = () => {
 
   useEffect(() => {
     if (!bibleResult || !bibleResult.succeded) return;
-    dispatch(setBookTypes(bibleResult.data.books));
+    dispatch(setBible(bibleResult.data));
     const found = progress.find((x) => x.translationId == id);
-    if (!found)
+    if (!found) {
       dispatch(
         setProgress({ translationId: id, book: bibleResult.data.books[0].code })
       );
+      return;
+    }
+
+    setChapter(found?.chapter);
   }, [bibleResult]);
   useEffect(() => {
     const found = progress.find((x) => x.translationId == id);
-    if (id &&found && (found?.book!=book?.type.code)) {
+    if (id && found && found?.book != book?.type.code) {
       getBook(id, found.book);
     }
   }, [id, progress]);
@@ -60,7 +60,11 @@ const Bible = () => {
       setChapter(undefined);
       const result = await apiService.getBook(translationId, code);
       if (result.succeded) setBook(result.data);
-      console.log(result);
+      const found = progress.find((x) => x.translationId == id);
+      if (found && found.chapter) {
+        setChapter(found.chapter);
+        return;
+      }
     } catch (error) {
     } finally {
       setLoading(false);
@@ -71,64 +75,8 @@ const Bible = () => {
       {loading || bibleIsLoading ? (
         <Loading type="bounce" title="Loading" />
       ) : (
-        bookTypes.length > 0 && (
-          <>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <label style={{ fontWeight: 700, margin: "auto" }}>Book</label>
-              <select
-                style={{ maxWidth: "500px" }}
-                value={progress.find((x) => x.translationId == id)?.book}
-                onChange={(e) =>
-                  dispatch(
-                    setProgress({
-                      translationId: id,
-                      book: e.target.value,
-                    })
-                  )
-                }
-              >
-                <option>--Select a book--</option>
-                {bookTypes &&
-                  bookTypes.map((x) => (
-                    <option key={x.code} value={x.code}>
-                      {x.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-            <div style={{ margin: "10px auto", padding: "0 10%" }}>
-              {book&&book.chapters.map((x) => (
-                <button key={x.number} onClick={() => setChapter(x.number)}>
-                  {x.number}
-                </button>
-              ))}
-            </div>
-            <div style={{ textAlign: "justify", padding: "0 10%" }}>
-              <ol>
-                {chapter && (
-                  <>
-                    <h3 style={{ textAlign: "center" }}>{book?.type.name} {chapter}</h3>
-                    {book&&book.chapters
-                      .filter((x) => x.number == chapter)[0]
-                      .verses.map((x) => (
-                        <li
-                          key={x.number}
-                          dangerouslySetInnerHTML={{ __html: x.text }}
-                        ></li>
-                      ))}
-                  </>
-                )}
-              </ol>
-            </div>
-            ``
-          </>
-        )
+        bible && bible.books.length > 0 && <Read book={book} />
       )}
-
-      {/*
-        verses &&
-        verses.length > 0 && <Read verses={verses} translation={translation} />
-      )}*/}
       <>{bibleError && bibleError}</>
     </>
   );

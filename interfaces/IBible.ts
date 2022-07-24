@@ -2,7 +2,7 @@ import { IBookType } from "./IBookType";
 
 
 export interface IBible{
-    id?:number,
+    id:number,
     language?:string,
     translation?:string,
     abbreviation?:string,
