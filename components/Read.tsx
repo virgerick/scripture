@@ -10,7 +10,6 @@ import React, {
 import { useWindowSize } from "../hooks/useWindowSize";
 import HTMLFlipBook from "react-pageflip";
 import styles from "../styles/Home.module.css";
-import { bookTypes } from "../models/BookTypes";
 import { Verse } from "../models/verse";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setBook, setProgress } from "../app/features/appSlice";
@@ -19,7 +18,6 @@ import { IBook } from "../interfaces/IBook";
 import { IBible } from "../interfaces/IBible";
 import { IVerse } from "../interfaces/IVerse";
 import { IChapter } from "../interfaces/IChapter";
-import { bibles } from "../utilities/LoadBlible";
 interface IReadProps {
   book?: IBook;
 }

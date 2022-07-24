@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Books } from "../Enums/Books";
 import { IBookType } from "../interfaces/IBookType";
 import { ITranslation } from "../interfaces/ITranslations";
-import { bookTypes } from "../models/BookTypes";
 import { Verse } from "../models/verse";
 import styles from "../styles/Home.module.css";
 import { store } from "../app/store";
