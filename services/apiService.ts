@@ -1,5 +1,6 @@
 import { IBook } from "../interfaces/IBook";
-import { IResult } from "../interfaces/IResult";
+import { IResult, IResultList } from "../interfaces/IResult";
+import { ITranslation } from "../interfaces/ITranslations";
 
 class ApiService {
   baseUrl: string = "https://scriptureapi.herokuapp.com/api";
@@ -10,6 +11,14 @@ class ApiService {
     const data = await result.json();
     return data as IResult<IBook>;
   }
+  async getTranslations(): Promise<IResultList<ITranslation>> {
+    const result = await fetch(
+      `${this.baseUrl}/translations`
+    );
+    const data = await result.json();
+    return data as IResultList<ITranslation>;
+  }
+
 }
 
 export const apiService =new ApiService();

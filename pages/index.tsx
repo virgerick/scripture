@@ -1,36 +1,9 @@
 import type { NextPage } from "next";
-import { Provider } from "react-redux";
 import Head from "next/head";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { Books } from "../Enums/Books";
-import { IBookType } from "../interfaces/IBookType";
-import { ITranslation } from "../interfaces/ITranslations";
-import { Verse } from "../models/verse";
 import styles from "../styles/Home.module.css";
-import { store } from "../app/store";
 import { TranslationList } from "../components/TranslationList";
 
 const Home: NextPage = () => {
-  const [translations, setTranslations] = useState<Array<ITranslation>>([]);
-  const [translation, setTranslation] = useState<string>("valera");
-  const [showOldTestament, setShowOldTestament] = useState<boolean>(true);
-  const [book, setBook] = useState<string>();
-  const [chapter, setChapter] = useState<number>(0);
-  const [chapters, setChapters] = useState<number[]>([]);
-  const [verses, setVerses] = useState<Verse[]>([]);
-
-  useEffect(() => {
-    const getTranslations = async () => {
-      const result = await fetch("api/translations");
-
-      let translations: Array<ITranslation> = await result.json();
-      setTranslations(translations);
-    };
-    getTranslations();
-    setBook("01O");
-  }, []);
-
   return (
     <div className={styles.container}>
       <Head>
