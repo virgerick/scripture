@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+/*import { readFileSync } from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Books } from "../../../Enums/Books";
 import { IBible } from "../../../interfaces/IBible";

@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+/*import { readFileSync } from "fs";
 import { ITranslation } from "../interfaces/ITranslations";
 import { IVerse } from "../interfaces/IVerse";
 import { Verse } from "../models/verse";

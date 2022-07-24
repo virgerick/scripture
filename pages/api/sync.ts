@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+/*import { NextApiRequest, NextApiResponse } from "next";
 import { sequelize } from "../../database";
 import  "../../schemas/index"
 export default async function handler(

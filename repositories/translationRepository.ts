@@ -1,4 +1,4 @@
-import { ITranslation } from "../interfaces/ITranslations";
+/*import { ITranslation } from "../interfaces/ITranslations";
 import translationsJson from "../public/Assets/translations.json";
 export default class TranslationRepository {
   translations: Array<ITranslation> = [];

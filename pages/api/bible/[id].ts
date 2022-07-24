@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+/*import { NextApiRequest, NextApiResponse } from "next";
 import { IBible } from "../../../interfaces/IBible";
 import { loadBible } from "../../../repositories/bibleRepository";
 import { translationRepository } from "../../../repositories/translationRepository";

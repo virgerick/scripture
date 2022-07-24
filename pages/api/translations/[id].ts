@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+/*import { NextApiRequest, NextApiResponse } from "next";
 import { ITranslation } from "../../../interfaces/ITranslations";
 import { translationRepository } from "../../../repositories/translationRepository";
 export default async function handler(
