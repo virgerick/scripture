@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <a href="">Scripture</a>
+          <a href="">The Scripture</a>
         </h1>
         <br />
         <TranslationList />
