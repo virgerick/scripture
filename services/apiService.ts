@@ -1,9 +1,9 @@
 import { IBook } from "../interfaces/IBook";
 import { IResult, IResultList } from "../interfaces/IResult";
 import { ITranslation } from "../interfaces/ITranslations";
-const { BASE_URI } = process.env;
+const { NEXT_PUBLIC_BASE_URI } = process.env;
 class ApiService {
-  baseUrl: string = `${BASE_URI}/api`;
+  baseUrl: string = `${NEXT_PUBLIC_BASE_URI}/api`;
   async getBook(translationId: number, code: string): Promise<IResult<IBook>> {
     const result = await fetch(
       `${this.baseUrl}/Books/${translationId}/${code}`
