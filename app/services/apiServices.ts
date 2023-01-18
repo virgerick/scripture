@@ -3,14 +3,14 @@ import { IBible } from "../../interfaces/IBible";
 import { IResult, IResultList } from "../../interfaces/IResult";
 import { ITranslation } from "../../interfaces/ITranslations";
 import { Verse } from "../../models/verse";
-
+const { BASE_URI } = process.env;
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
   reducerPath: "api",
   // baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   // baseQuery: fetchBaseQuery({ baseUrl: "https://scriptureapi.azurewebsites.net/api/" }),
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://scriptureapi.herokuapp.com/api/",
+    baseUrl:`${BASE_URI}/api`,
   }),
   endpoints: (builder) => {
     return {
