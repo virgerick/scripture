@@ -31,7 +31,7 @@ const Bible = () => {
   } = useGetBibleByIdQuery(id);
 
   useEffect(() => {
-    if (!bibleResult || !bibleResult.succeded) return;
+    if (!bibleResult || !bibleResult.succeeded) return;
     dispatch(setBible(bibleResult.data));
     const found = progress.find((x) => x.translationId == id);
     if (!found) {
@@ -59,7 +59,7 @@ const Bible = () => {
       setLoading(true);
       setChapter(undefined);
       const result = await apiService.getBook(translationId, code);
-      if (result.succeded) setBook(result.data);
+      if (result.succeeded) setBook(result.data);
       const found = progress.find((x) => x.translationId == id);
       if (found && found.chapter) {
         setChapter(found.chapter);

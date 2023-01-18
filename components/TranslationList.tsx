@@ -16,7 +16,7 @@ export const TranslationList = () => {
     isLoading,
   } = useGetAllTranslationsQuery();
   useEffect(() => {
-    if (translationResult && translationResult?.succeded) {
+    if (translationResult && translationResult?.succeeded) {
       const set: Set<string> = new Set();
       translationResult.items.forEach((t) => {
         set.add(t.language);
@@ -35,7 +35,7 @@ export const TranslationList = () => {
       <br />{" "}
       <section className={styles.grid}>
         {translationResult &&
-          translationResult.succeded &&
+          translationResult.succeeded &&
           translationResult.items
             ?.filter((x) => (language != "" ? x.language == language : true))
             ?.map((t) => <Bible translation={t} key={t.id} />)}
